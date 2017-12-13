@@ -40,6 +40,7 @@ vp.saveastable('noema_pb.tab')
 #        vptable='noema_pb.tab'
 #        )
 
+
 clean(vis='meas_sets/M33-ARM05.ms',
       imagename="imaging/M33_ARM05",
       field='M33*',
@@ -55,10 +56,41 @@ clean(vis='meas_sets/M33-ARM05.ms',
       ftmachine='mosaic',
       weighting='natural',
       niter=10000,
-      gain=0.05,
-      threshold='100mJy/beam',
+      gain=0.2,
+      threshold='70mJy/beam',
       outframe='LSRK',
       mask=None,
-      minpb=0.4,
+      minpb=0.2,
       pbcor=False,
+      interactive=True
       )
+
+# Make a bunch of dirty cubes
+names = ['M33-ARM', 'M33-ARM05',
+         'M33-ARM1', 'M33-ARM13',
+         'M33-ARM2']
+
+for name in names:
+      clean(vis='meas_sets/{}.ms'.format(name),
+            imagename="imaging/{}_dirty".format(name),
+            field='M33*',
+            imsize=[1024, 700],
+            cell='0.2arcsec',
+            mode='channel',
+            start=1,
+            width=1,
+            nchan=-1,
+            phasecenter='J2000 01h33m33.191 +30d32m06.720',
+            restfreq='230.538GHz',
+            imagermode='mosaic',
+            ftmachine='mosaic',
+            weighting='natural',
+            niter=0,
+            gain=0.2,
+            threshold='70mJy/beam',
+            outframe='LSRK',
+            mask=None,
+            minpb=0.2,
+            pbcor=False,
+            interactive=False
+            )
