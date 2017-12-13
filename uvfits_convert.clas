@@ -1,0 +1,9 @@
+
+! start with sic
+
+! convert the orig data.
+! the / on style is critical! a number of tables don't get written out otherwise!!
+for i 1 to 88
+    fits uvfits/M33-ARM-'i'.uvfits from M33-ARM-'i'.uvt /style casa_uvfits
+    fits uvfits/M33-ARM05-'i'.uvfits from M33-ARM05-'i'.uvt /style casa_uvfits
+    next
