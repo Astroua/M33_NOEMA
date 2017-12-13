@@ -6,4 +6,8 @@
 for i 1 to 88
     fits uvfits/M33-ARM-'i'.uvfits from M33-ARM-'i'.uvt /style casa_uvfits
     fits uvfits/M33-ARM05-'i'.uvfits from M33-ARM05-'i'.uvt /style casa_uvfits
+    fits uvfits/M33-ARM1-'i'.uvfits from M33-ARM1-'i'.uvt /style casa_uvfits
+    fits uvfits/M33-ARM13-'i'.uvfits from M33-ARM13-'i'.uvt /style casa_uvfits
+    fits uvfits/M33-ARM2-'i'.uvfits from M33-ARM2-'i'.uvt /style casa_uvfits
+    fits uvfits/M33-ARMcont-'i'.uvfits from M33-ARMcont-'i'.uvt /style casa_uvfits
     next
