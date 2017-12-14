@@ -73,7 +73,7 @@ for pref in str_prefix:
 
     # Now concatenate
 
-    concat(vis=ms_names, concatvis='meas_sets/{}_spectral_test.ms'.format(pref[:-1]))
+    concat(vis=ms_names, concatvis='meas_sets/{}.ms'.format(pref[:-1]))
 
     # Delete the individual MSs
     for ms_name in ms_names:
