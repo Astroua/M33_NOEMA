@@ -3,6 +3,7 @@
 # For casa 5.1.1
 
 from astropy.io import fits
+import astropy.units as u
 
 # Issues with setting vsys and rest freq of the source
 # Presumably this is fine and can just be given when imaging
@@ -34,6 +35,20 @@ for pref in str_prefix:
         # these are the same before importing to CASA
         hdu[0].header['CRVAL5'] = hdu[0].header['OBSRA']
         hdu[0].header['CRVAL6'] = hdu[0].header['OBSDEC']
+
+        # The ref freq is also confusing. It's the frequency in the rest frame
+        # So it needs to be altered to be in the observed frame.
+        # GILDAS appears to have this conversion built-in everywhere
+        restfreq = hdu[0].header['RESTFREQ'] * u.Hz
+        rest_cent_freq = hdu[0].header['CRVAL4'] * u.Hz
+        source_vel = hdu[0].header['VELO-LSR'] * u.m / u.s
+
+        # Calculate the frequency shift
+        del_f = rest_cent_freq - source_vel.to(u.Hz, u.doppler_radio(restfreq))
+
+        # Adjust CRVAL4 to the observed frame frequency
+        hdu[0].header['CRVAL4'] -= del_f.value
+
         hdu.flush()
         hdu.close()
 
@@ -47,7 +62,7 @@ for pref in str_prefix:
         hdu = fits.open(uvfits)
 
         tb.open("{}/SOURCE".format(vis_name), nomodify=False)
-        tb.putcol('REST_FREQUENCY', [[hdu[0].header['RESTFREQ']]])
+        # tb.putcol('REST_FREQUENCY', [[hdu[0].header['RESTFREQ']]])
         tb.putcol('SYSVEL', [[hdu[0].header['VELO-LSR']]])
         tb.putcol('NAME', [[str_name]])
         tb.close()
@@ -58,7 +73,7 @@ for pref in str_prefix:
 
     # Now concatenate
 
-    concat(vis=ms_names, concatvis='meas_sets/{}.ms'.format(pref[:-1]))
+    concat(vis=ms_names, concatvis='meas_sets/{}_spectral_test.ms'.format(pref[:-1]))
 
     # Delete the individual MSs
     for ms_name in ms_names:
