@@ -4,6 +4,7 @@
 
 from astropy.io import fits
 import astropy.units as u
+import numpy as np
 
 # Issues with setting vsys and rest freq of the source
 # Presumably this is fine and can just be given when imaging
@@ -12,7 +13,7 @@ import astropy.units as u
 
 # Loop through the different spectral resolutions Jonathan made
 str_prefix = ['M33-ARM-', 'M33-ARM05-', 'M33-ARM1-', 'M33-ARM13-', 'M33-ARM2-',
-              'M33-ARMcont-']
+              'M33-ARMcont-', 'M33-ARM05-merged-']
 
 for pref in str_prefix:
 
@@ -48,6 +49,16 @@ for pref in str_prefix:
 
         # Adjust CRVAL4 to the observed frame frequency
         hdu[0].header['CRVAL4'] -= del_f.value
+
+        # Need to assign the SD visibilities to an ant pair
+        # CASA doesn't barf when doing this, but I can't be sure it worked in
+        # any useful way. So don't use this for any science products, just as
+        # a check against the GILDAS imaging
+        if 'merged' in pref:
+
+            baselines = hdu[0].data['BASELINE']
+            baselines[np.where(baselines == 0)] = baselines[0]
+            hdu[0].data['BASELINE'] = baselines
 
         hdu.flush()
         hdu.close()

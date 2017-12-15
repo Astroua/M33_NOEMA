@@ -68,7 +68,7 @@ clean(vis='meas_sets/M33-ARM05.ms',
 # Make a bunch of dirty cubes
 names = ['M33-ARM', 'M33-ARM05',
          'M33-ARM1', 'M33-ARM13',
-         'M33-ARM2']
+         'M33-ARM2', 'M33-ARM05-merged']
 
 for name in names:
       clean(vis='meas_sets/{}.ms'.format(name),
