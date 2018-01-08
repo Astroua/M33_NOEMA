@@ -94,3 +94,7 @@ for name in names:
             pbcor=False,
             interactive=False
             )
+
+      impbcor(imagename='imaging/{}_dirty.image'.format(name),
+              pbimage='imaging/{}_dirty.flux'.format(name),
+              outfile='imaging/{}_dirty.image.pbcor'.format(name))
