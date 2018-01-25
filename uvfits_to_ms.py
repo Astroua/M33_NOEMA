@@ -93,6 +93,13 @@ for pref in str_prefix:
         vishead(vis="meas_sets/{}.ms".format(str_name), mode='put',
                 hdkey='field', hdvalue=str_name)
 
+        # If you want to use tclean, you'll need to rename the telescope to
+        # IRAMPDB instead of IRAM PDB. The former is the correct beam response
+        # name, the latter is the name that CASA recognizes elsewhere.
+        vishead(vis='meas_sets/{}.ms'.format(str_name), mode='put',
+                hdkey='telescope',
+                hdvalue=(np.array(["IRAMPDB"] * 2)))
+
         # Add in rest freq and vsys
         hdu = fits.open(uvfits)
 
