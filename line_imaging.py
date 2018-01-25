@@ -12,6 +12,8 @@ from tclean import tclean
 import numpy as np
 from scipy import ndimage as nd
 from radio_beam import Beam, EllipticalTophat2DKernel
+from spectral_cube import SpectralCube
+import astropy.units as u
 from astropy import units as u
 
 # noise level at 0.025 Jy/beam
@@ -275,3 +277,13 @@ impbcor(imagename="line_imaging/M33-ARM05.image",
 exportfits(imagename="line_imaging/M33-ARM05.image.pbcor",
            fitsimage="line_imaging/M33-ARM05.image.pbcor.fits",
            history=False, dropdeg=True)
+
+# Because tclean wants the telescope to be IRAMPDB to get the dish model,
+# and the rest of casa seems to want IRAM PDB to get the locations,
+# the cube has a frequency axis instead of velocity. But the data are already
+# in LSRK, so we can just use spectral-cube to overwrite a velocity version
+cube = SpectralCube.read('line_imaging/M33-ARM05.image.pbcor.fits')
+cube = cube.with_spectral_unit(u.m / u.s, velocity_convention='radio',
+                               rest_value=230.538 * u.GHz)
+cube.write('line_imaging/M33-ARM05.image.pbcor.fits',
+           overwrite=True)
