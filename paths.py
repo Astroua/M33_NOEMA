@@ -43,3 +43,8 @@ iram_data_path = partial(name_return_check,
 iram_matched_data_path = partial(name_return_check,
                                  path=os.path.join(data_path,
                                                    'co21/noema'))
+
+if __name__ == "__main__":
+
+    # Append the repo directory to the path so paths is importable
+    os.sys.path.append(root)
