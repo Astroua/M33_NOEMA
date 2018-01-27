@@ -29,12 +29,12 @@ imaging_path = partial(name_return_check,
 analysis_path = partial(name_return_check,
                         path=os.path.join(root, 'analysis'))
 
-noema_data_path = partial(name_return_check,
-                          path=os.path.join(data_path, 'co21_noema'))
+noema_path = partial(name_return_check,
+                     path=os.path.join(data_path, 'co21_noema'))
 
-co21_data_path = partial(name_return_check,
-                         path=os.path.join(data_path,
-                                           'co21_noema/line_imaging'))
+noema_data_path = partial(name_return_check,
+                          path=os.path.join(data_path,
+                                            'co21_noema/line_imaging'))
 
 iram_data_path = partial(name_return_check,
                          path=os.path.join(data_path,
