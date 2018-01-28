@@ -110,4 +110,3 @@ plt.xlabel("Radius (UNIT)")
 
 # Channel 18 has a severe outlier, but otherwise the slopes are consistent
 # with 0+/-0.1. And the intercept is also ~0.5.
-
