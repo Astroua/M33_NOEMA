@@ -12,6 +12,8 @@ from spectral_cube import SpectralCube
 import astropy.units as u
 import scipy.ndimage as nd
 from uvcombine.scale_factor import find_scale_factor
+from scipy.stats import theilslopes
+import matplotlib.pyplot as plt
 
 from paths import iram_matched_data_path, noema_data_path
 from constants import co21_freq
@@ -62,3 +64,50 @@ print("{0}+/-{1}".format(sfact, sfact_stderr))
 # 0.556870076298+/-0.0181629468365
 # There's a large discrepancy between the data sets.
 # The IRAM data appear to have twice the flux of NOEMA in the overlap region.
+
+
+# There doesn't appear to be a clear trend with radius, but let's just check
+
+def sentheil_perchan(xvals, yvals, alpha=0.85):
+
+    slope = np.empty((len(xvals)))
+    upper_uncert = np.empty((len(xvals)))
+    lower_uncert = np.empty((len(xvals)))
+
+    for i, (xval, yval) in enumerate(zip(xvals, yvals)):
+
+        out = theilslopes(yval, x=xval, alpha=alpha)
+
+        slope[i] = out[0]
+        upper_uncert[i] = out[3] - out[0]
+        lower_uncert[i] = out[0] - out[2]
+
+    return slope, lower_uncert, upper_uncert
+
+
+ratios = [highres / lowres for highres, lowres in zip(highres_pts, lowres_pts)]
+
+slopes, low_slope, high_slope = \
+    sentheil_perchan(radii, ratios)
+
+# Fit for all overlap points
+all_slope, inter, all_low_slope, all_high_slope = \
+    theilslopes(np.hstack(ratios), x=np.hstack(radii).value)
+
+chans = range(11, 26)
+
+plt.errorbar(chans, slopes,
+             yerr=[low_slope, high_slope],
+             alpha=0.5)
+# plt.plot(chans, slope_lowess_85)
+plt.axhline(0, linestyle='--')
+plt.axhline(all_slope)
+plt.fill_between(chans, all_low_slope, all_high_slope, alpha=0.5)
+plt.ylabel("Slope")
+plt.xlabel("Radius (UNIT)")
+
+# SAVE PLOT
+
+# Channel 18 has a severe outlier, but otherwise the slopes are consistent
+# with 0+/-0.1. And the intercept is also ~0.5.
+
