@@ -42,3 +42,20 @@ feather_cube(noema_cube, iram_cube,
              num_cores=1, chunk=100,
              restfreq=co21_freq,
              weights=weight_arr)
+
+
+# Now do the same for the 0.5 km/s data
+
+noema_cube = SpectralCube.read(noema_data_path('M33-ARM05.image.pbcor.fits'))
+iram_cube = SpectralCube.read(iram_matched_data_path("m33.co21_iram.noema_regrid.fits"))
+
+# Convert the NOEMA cube to K
+noema_cube.allow_huge_operations = True
+noema_cube = noema_cube.to(u.K)
+
+feather_cube(noema_cube, iram_cube,
+             verbose=True, save_feather=True,
+             save_name=noema_data_path('M33-ARM05.image.pbcor.feather.fits', no_check=True),
+             num_cores=1, chunk=100,
+             restfreq=co21_freq,
+             weights=weight_arr)
