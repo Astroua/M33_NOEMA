@@ -278,6 +278,11 @@ exportfits(imagename="line_imaging/M33-ARM05.image.pbcor",
            fitsimage="line_imaging/M33-ARM05.image.pbcor.fits",
            history=False, dropdeg=True)
 
+# We'll need the pb coverage later for tapering map edges while feathering
+exportfits(imagename="line_imaging/M33-ARM05.pb",
+           fitsimage="line_imaging/M33-ARM05.pb.fits",
+           history=False, dropdeg=True)
+
 # Because tclean wants the telescope to be IRAMPDB to get the dish model,
 # and the rest of casa seems to want IRAM PDB to get the locations,
 # the cube has a frequency axis instead of velocity. But the data are already
