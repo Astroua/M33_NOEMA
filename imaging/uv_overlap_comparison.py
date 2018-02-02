@@ -7,6 +7,7 @@ Compare when matched at the IRAM 2.6 km/s spectral resolution and at the
 
 '''
 
+import os
 import numpy as np
 from spectral_cube import SpectralCube
 import astropy.units as u
@@ -15,11 +16,16 @@ from uvcombine.scale_factor import find_scale_factor
 from scipy.stats import theilslopes
 import matplotlib.pyplot as plt
 
-from paths import iram_matched_data_path, noema_data_path
+from paths import iram_matched_data_path, noema_data_path, allfigs_path
 from constants import co21_freq
+from plotting_styles import onecolumn_figure
 
 from cube_analysis.feather_cubes import feather_compare_cube
 
+
+figure_folder = allfigs_path("Imaging")
+if not os.path.exists(figure_folder):
+    os.mkdir(figure_folder)
 
 noema_cube = SpectralCube.read(noema_data_path('M33-ARM26.image.pbcor.fits'))
 iram_cube = SpectralCube.read(iram_matched_data_path("m33.co21_iram.noema_regrid.spatial.fits"))
@@ -43,7 +49,7 @@ iram_cube = iram_cube.spectral_slab(noema_cube.spectral_extrema[0],
 
 # Smallest baseline in the NOEMA data is
 min_baseline = 15.32 * u.m
-LAS = (1.18 * (co21_freq.to(u.m, u.spectral()) / min_baseline) * u.rad).to(u.deg)
+LAS = ((co21_freq.to(u.m, u.spectral()) / min_baseline) * u.rad).to(u.deg)
 
 # Only compare channels with signal in them
 good_chans = slice(11, 26)
@@ -56,15 +62,23 @@ radii, ratios, highres_pts, lowres_pts = \
                          verbose=True, num_cores=1, chunk=150,
                          weights=weight_arr)
 
+onecolumn_figure()
+
 sfact, sfact_stderr = \
     find_scale_factor(np.hstack(lowres_pts), np.hstack(highres_pts),
                       method='distrib', verbose=True)
+
+plt.xlabel("log Ratio (NOEMA / 30-m)")
+plt.grid()
+plt.tight_layout()
+plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio.png"))
+plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio.pdf"))
+plt.close()
 
 print("{0}+/-{1}".format(sfact, sfact_stderr))
 # 0.556870076298+/-0.0181629468365
 # There's a large discrepancy between the data sets.
 # The IRAM data appear to have twice the flux of NOEMA in the overlap region.
-
 
 # There doesn't appear to be a clear trend with radius, but let's just check
 
@@ -104,9 +118,12 @@ plt.axhline(0, linestyle='--')
 plt.axhline(all_slope)
 plt.fill_between(chans, all_low_slope, all_high_slope, alpha=0.5)
 plt.ylabel("Slope")
-plt.xlabel("Radius (UNIT)")
-
-# SAVE PLOT
+plt.xlabel("Channel")
+plt.grid()
+plt.tight_layout()
+plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio_slope.png"))
+plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio_slope.pdf"))
+plt.close()
 
 # Channel 18 has a severe outlier, but otherwise the slopes are consistent
 # with 0+/-0.1. And the intercept is also ~0.5.

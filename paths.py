@@ -44,6 +44,9 @@ iram_matched_data_path = partial(name_return_check,
                                  path=os.path.join(data_path,
                                                    'co21/noema'))
 
+fig_path = os.path.expanduser("~/Dropbox/Various Plots/M33/NOEMA/")
+allfigs_path = lambda x: os.path.join(fig_path, x)
+
 if __name__ == "__main__":
 
     # Append the repo directory to the path so paths is importable
