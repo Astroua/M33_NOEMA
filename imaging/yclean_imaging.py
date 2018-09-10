@@ -47,3 +47,16 @@ yclean(vis, source, imagename, phasecenter, width=width, start=start,
 
 # Check the outputted clean products at each iteration before (hopefully)
 # just keeping the final one.
+
+impbcor(imagename='{}/M33-ARM05_yclean.tc_final.image'.format(folder_name),
+        pbimage='{}/M33-ARM05_yclean.tc_final.pb'.format(folder_name),
+        outfile='{}/M33-ARM05_yclean.tc_final.image.pbcor'.format(folder_name),
+        overwrite=True)
+
+exportfits(imagename='{}/M33-ARM05_yclean.tc_final.image.pbcor'.format(folder_name),
+           fitsimage='{}/M33-ARM05_yclean.tc_final.image.pbcor.fits'.format(folder_name),
+           velocity=True, overwrite=True, dropdeg=True, history=False)
+
+exportfits(imagename='{}/M33-ARM05_yclean.tc_final.image.pbcor'.format(folder_name),
+           fitsimage='{}/M33-ARM05_yclean.tc_final.image.pbcor.fits'.format(folder_name),
+           velocity=True, overwrite=True, dropdeg=True, history=False)
