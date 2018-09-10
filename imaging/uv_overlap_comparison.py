@@ -27,12 +27,13 @@ figure_folder = allfigs_path("Imaging")
 if not os.path.exists(figure_folder):
     os.mkdir(figure_folder)
 
-noema_cube = SpectralCube.read(noema_data_path('M33-ARM26.image.pbcor.fits'))
+noema_cube = SpectralCube.read(noema_data_path('M33-ARM05_yclean.tc_final.image.pbcor.K.26regrid.fits'))
+
 iram_cube = SpectralCube.read(iram_matched_data_path("m33.co21_iram.noema_regrid.spatial.fits"))
 
 # Also need the pb map. It is constant across the channels so grab the first
 # channel
-noema_pb = SpectralCube.read(noema_data_path('M33-ARM05.pb.fits'))[0]
+noema_pb = SpectralCube.read(noema_data_path('yclean_05/M33-ARM05_yclean.tc_final.pb.fits'))[0]
 
 # Define a mask that will be used to smoothly taper the IRAM data near the
 # map edges. Otherwise the comparison is dominated by ringing in the Fourier
@@ -50,6 +51,8 @@ iram_cube = iram_cube.spectral_slab(noema_cube.spectral_extrema[0],
 # Smallest baseline in the NOEMA data is
 min_baseline = 15.32 * u.m
 LAS = ((co21_freq.to(u.m, u.spectral()) / min_baseline) * u.rad).to(u.deg)
+# About 17.5". The resolution of the 30-m data is 12", so there isn't
+# much overlap.
 
 # Only compare channels with signal in them
 good_chans = slice(11, 26)
@@ -76,7 +79,7 @@ plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio.pdf"))
 plt.close()
 
 print("{0}+/-{1}".format(sfact, sfact_stderr))
-# 0.556870076298+/-0.0181629468365
+# 0.597+/-0.019
 # There's a large discrepancy between the data sets.
 # The IRAM data appear to have twice the flux of NOEMA in the overlap region.
 

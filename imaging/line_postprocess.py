@@ -11,10 +11,10 @@ import numpy as np
 from paths import noema_data_path, iram_data_path
 
 # Load the cube
-cube = SpectralCube.read(noema_data_path("M33-ARM05.image.pbcor.fits"))
+cube = SpectralCube.read(noema_data_path("M33-ARM05_yclean.tc_final.image.pbcor.K.fits"))
 
 # Need to convolve to a common beam
-com_beam = cube.beams.common_beam()
+com_beam = cube.beams.common_beam(epsilon=8e-4)
 cube = cube.convolve_to(com_beam)
 
 # And the IRAM cube
@@ -35,5 +35,5 @@ smcube = cube.spectral_smooth(Gaussian1DKernel(ratio / fwhm_factor))
 interp_cube = smcube.spectral_interpolate(iram_cube.spectral_axis,
                                           suppress_smooth_warning=True)
 
-interp_cube.write(noema_data_path('M33-ARM26.image.pbcor.fits',
+interp_cube.write(noema_data_path('M33-ARM05_yclean.tc_final.image.pbcor.K.26regrid.fits',
                                   no_check=True))
