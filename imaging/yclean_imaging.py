@@ -57,6 +57,6 @@ exportfits(imagename='{}/M33-ARM05_yclean.tc_final.image.pbcor'.format(folder_na
            fitsimage='{}/M33-ARM05_yclean.tc_final.image.pbcor.fits'.format(folder_name),
            velocity=True, overwrite=True, dropdeg=True, history=False)
 
-exportfits(imagename='{}/M33-ARM05_yclean.tc_final.image.pbcor'.format(folder_name),
-           fitsimage='{}/M33-ARM05_yclean.tc_final.image.pbcor.fits'.format(folder_name),
+exportfits(imagename='{}/M33-ARM05_yclean.tc_final.pb'.format(folder_name),
+           fitsimage='{}/M33-ARM05_yclean.tc_final.pb.fits'.format(folder_name),
            velocity=True, overwrite=True, dropdeg=True, history=False)
