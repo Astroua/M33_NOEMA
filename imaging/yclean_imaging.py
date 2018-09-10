@@ -14,6 +14,8 @@ of a couple due to variation in the primary beam coverage.
 Run in casa 4.7
 '''
 
+import os
+from distutils.dir_util import mkpath
 from yclean import *
 
 source = 'M33*'
@@ -28,8 +30,13 @@ nchan = -1
 
 restfreq = "230.538GHz"
 
+folder_name = "line_imaging/yclean_05"
+
+if not os.path.exists(folder_name):
+    mkpath(folder_name)
+
 vis = "meas_sets/M33-ARM05.ms"
-imagename = "yclean_test/M33-ARM05_yclean_test"
+imagename = "{}/M33-ARM05_yclean".format(folder_name)
 
 yclean(vis, source, imagename, phasecenter, width=width, start=start,
        nchan=nchan, restfreq=restfreq, imsize=imsize, cell=cell,
@@ -37,3 +44,6 @@ yclean(vis, source, imagename, phasecenter, width=width, start=start,
        specmode='cube', interpolation='linear', deconvolver='multiscale',
        scales=[0, 5, 10, 20], outframe='LSRK', uvtaper='', pblimit=0.2,
        interactive=False)
+
+# Check the outputted clean products at each iteration before (hopefully)
+# just keeping the final one.
