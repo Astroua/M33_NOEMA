@@ -79,9 +79,11 @@ plt.savefig(os.path.join(figure_folder, "NOEMA_30m_overlap_ratio.pdf"))
 plt.close()
 
 print("{0}+/-{1}".format(sfact, sfact_stderr))
-# 0.597+/-0.019
-# There's a large discrepancy between the data sets.
-# The IRAM data appear to have twice the flux of NOEMA in the overlap region.
+# 0.980326306378+/-0.032036255747
+# There's a large discrepancy between the data sets when the Ta* -> Tmb
+# conversion. Is applied to the 30-m data. The discrepancy is suspiciously
+# the same as the Tmb conversion factor.
+# The above ratio and saved plot do NOT have the Tmb conversion factor
 
 # There doesn't appear to be a clear trend with radius, but let's just check
 

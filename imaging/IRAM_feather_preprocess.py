@@ -33,16 +33,22 @@ reproject_cube(iram_data_path('m33.co21_iram.fits'),
 
 # Open each cube and apply the Ta* -> Tmb correction
 
+# NOTE: The uv-overlap ratio matches if this correction is NOT applied.
+# If that is the case, the correction factor may need to be applied to both
+# data sets.
+
 rep_spat_cube = SpectralCube.read(iram_matched_data_path("m33.co21_iram.noema_regrid.spatial.fits"))
-rep_spat_cube.allow_huge_operations=True
-rep_spat_cube /= beam_eff_30m_druard
+# rep_spat_cube.allow_huge_operations = True
+# rep_spat_cube /= beam_eff_30m_druard
 rep_spat_cube.write(iram_matched_data_path("m33.co21_iram.noema_regrid.spatial.fits"),
                     overwrite=True)
 
 del rep_spat_cube
 
 rep_cube = SpectralCube.read(iram_matched_data_path("m33.co21_iram.noema_regrid.fits"))
-rep_cube.allow_huge_operations=True
-rep_cube /= beam_eff_30m_druard
+# rep_cube.allow_huge_operations = True
+# rep_cube /= beam_eff_30m_druard
+rep_cube.write(iram_matched_data_path("m33.co21_iram.noema_regrid.fits"),
+                                      overwrite=True)
 
 del rep_cube
