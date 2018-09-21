@@ -44,6 +44,10 @@ iram_matched_data_path = partial(name_return_check,
                                  path=os.path.join(data_path,
                                                    'co21/noema'))
 
+hi_14B088_data_path = partial(name_return_check,
+                              path=os.path.join(data_path,
+                                                "VLA/14B-088/HI/full_imaging_wGBT/"))
+
 fig_path = os.path.expanduser("~/Dropbox/Various Plots/M33/NOEMA/")
 allfigs_path = lambda x: os.path.join(fig_path, x)
 
