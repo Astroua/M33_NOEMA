@@ -66,11 +66,11 @@ def find_dataproduct_names(path):
                    "PeakTemp": "peaktemps",
                    "PeakVels": "peakvels.",
                    "Cube": "pbcor.K.com_beam.fits",
-                   "Source_Mask": "pbcor.K.com_beam_source_mask.fits", }
+                   "Source_Mask": "pbcor.K.com_beam_source_mask.fits",
+                   "RotSub_Cube": "masked.rotation_corrected",
+                   "RotSub_Mask": "masked_source_mask.rotation_corrected", }
                    # "CentSub_Cube": "masked.centroid_corrected",
                    # "CentSub_Mask": "masked_source_mask.centroid_corrected",
-                   # "RotSub_Cube": "masked.rotation_corrected",
-                   # "RotSub_Mask": "masked_source_mask.rotation_corrected",
                    # "PeakSub_Cube": "masked.peakvels_corrected",
                    # "PeakSub_Mask": "masked_source_mask.peakvels_corrected"}
 
