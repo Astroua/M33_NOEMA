@@ -48,6 +48,11 @@ hi_14B088_data_path = partial(name_return_check,
                               path=os.path.join(data_path,
                                                 "VLA/14B-088/HI/full_imaging_wGBT/"))
 
+hi_17B162_1kms_data_path = partial(name_return_check,
+                                   path=os.path.join(data_path,
+                                                     "VLA/17B-162/HI/full_imaging_1kms_wGBT/"))
+
+
 fig_path = os.path.expanduser("~/Dropbox/Various Plots/M33/NOEMA/")
 allfigs_path = lambda x: os.path.join(fig_path, x)
 
